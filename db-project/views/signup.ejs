@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<!-- saved from url=(0051)https://getbootstrap.com/docs/4.0/examples/sign-in/ -->
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="https://getbootstrap.com/docs/4.0/assets/img/favicons/favicon.ico">
+
+  <title>Signin Template for Bootstrap</title>
+  <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/sign-in/">
+  <!-- Bootstrap core CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <!-- Custom styles for this template -->
+  <link href="/stylesheets/signin.css" rel="stylesheet">
+</head>
+
+<body class="text-center">
+  <div class="row">
+    <div class="col-md-6 mx-auto">
+  <form class="form-signin">
+    <img class="mb-4" src="/images/bootstrap-solid.svg" alt="" width="72" height="72">
+    <h1 class="h3 mb-3 font-weight-normal">Hi 🤩</h1>
+    <label for="inputEmail" class="sr-only">Email address</label>
+    <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="">
+    <label for="name" class="sr-only">Name</label>
+    <input type="text" id="name" class="form-control" placeholder="Name" required="">
+    <label for="contact_no" class="sr-only">Telephone</label>
+    <input type="number" id="contact_no" class="form-control" placeholder="Telephone" required="">
+    <label for="type" class="sr-only">You are a/an</label>
+    <select id='type' class="custom-select">
+      <option selected>wholesaler</option>
+      <option value="retailer">retailer</option>
+      <option value="end customer">end customer</option>
+      <!--  
+      <option value="1">retailer</option>
+      <option value="2">end customer</option>
+      -->
+    </select>
+    <label for="inputPassword" class="sr-only">Password</label>
+    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="">
+    <label for="RetypeinputPassword" class="sr-only">Re-type Password</label>
+    <input type="password" id="RetypeinputPassword" class="form-control" placeholder="Retype Password" required="">
+    <div class="checkbox mb-3">
+      <label>
+        <input type="checkbox" value="remember-me" name="rememberme"> Remember me
+      </label>
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    Already have an account? <a href='/'>Log in</a>
+    <p class="mt-5 mb-3 text-muted">Supply Chain Management System </p>
+  </form>
+    </div>
+  </div>
+
+  <script>
+
+    const signupform = document.querySelector('form');
+
+    signupform.addEventListener('submit', async (e) => {
+
+      e.preventDefault();
+
+      // get the values
+      const email = signupform.inputEmail.value;
+      const password = signupform.inputPassword.value;
+      const contact_no = signupform.contact_no.value;
+      const type = signupform.type.value;
+      const name = signupform.name.value;
+      const rememberme = signupform.rememberme.checked;
+
+      console.log(email, password, rememberme, name, type, password,)
+
+      // fetch data to bacck end to register customer
+      try {
+
+        fetch("/signup", {
+          method: "POST",
+          mode: 'cors',
+          body: JSON.stringify({
+            email: email,
+            password: password,
+            type: type,
+            contact_no: contact_no,
+            name: name
+          }),
+          headers: { 'Content-Type': 'application/json' },
+
+        }).then(response => {
+          return response.json()
+        }).then(data => {
+          if (data.error)
+            alert(data.error)
+          else {
+            window.location.href = '/'
+          }
+        })
+
+      } catch (e) {
+        console.log(e)
+      }
+    });
+  </script>
+
+</body>
+
+</html>

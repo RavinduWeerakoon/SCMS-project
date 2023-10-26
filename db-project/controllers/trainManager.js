@@ -1,7 +1,7 @@
 let {pool , call_db ,connection}= require('../db/connection');
 const {decodeToken} = require('../middleware/authMiddleware')
 
-const {trainManager} = require('../models/trainManager')
+const trainManager = require('../models/trainManager')
 
 
 
@@ -40,7 +40,30 @@ async function addTrainSchedule(req, res){
     }
 }
 
+async function sendOrder(req, res){
+
+    try{
+        // const order = await trainManager.sendOrder(req);
+        console.log(req.body);
+        //res.status(200).json(order);
+        const result = await trainManager.sendOrder(req);
+        res.status(200).json(result);
+    } catch(error){
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
+async function getProduct(req, res){
+    try{
+        const product = await trainManager.getProduct(req);
+        res.status(200).json(product);
+    } catch(error){
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
 
 
 
-module.exports = { getIncompletedOrders, getTrainSchedule };
+module.exports = { getIncompletedOrders, getTrainSchedule, addTrainSchedule, sendOrder, getProduct};

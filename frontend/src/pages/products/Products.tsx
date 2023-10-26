@@ -4,6 +4,7 @@ import DataTable from "../../components/dataTable/DataTable";
 import Add from "../../components/add/Add";
 import { GridColDef } from "@mui/x-data-grid";
 //import { products } from "../../data";
+import BuyProduct  from  "../../components/buyProducts.tsx"
 
 const columns: GridColDef[] = [
   { field: "ID", headerName: "ID"},
@@ -45,6 +46,8 @@ const columns: GridColDef[] = [
     headerName: "In Stock",
     type: "boolean",
   },
+
+  
 ];
 
 const Products = () => {
@@ -79,7 +82,7 @@ const Products = () => {
         <h1>Products</h1>
         <button onClick={() => setOpen(true)}>Add New Products</button>
       </div>
-      <DataTable slug="products" columns={columns} rows={products} />
+      <DataTable slug="buy-product" columns={columns} rows={products} />
       {/* TEST THE API */}
 
       {/* {isLoading ? (

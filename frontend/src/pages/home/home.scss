@@ -44,4 +44,13 @@
       display: none;
     }
   }
+
+  .boxn{
+    grid-column: span 4;
+    
+
+    @include md {
+      display: none;
+    }
+  }
 }

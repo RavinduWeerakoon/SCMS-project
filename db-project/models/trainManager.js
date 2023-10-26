@@ -1,3 +1,4 @@
+
 let {pool , call_db ,connection}= require('../db/connection');
 const {decodeToken} = require('../middleware/authMiddleware')
 
@@ -7,12 +8,13 @@ module.exports = class TrainManager{
     
     static async getIncompletedOrders(req){
         // get the orders which does not have a train assigned the state is not delivered
-        const query = `select * from orders where state != 'delivered'`;
-
+        const query = `select ID,remained_count,qty,date_ordered
+                        from (train_order t join orders o) 
+                        where t.order = o.ID and t.finished=0 ; `;
+        console.log("Called");
         const result = await call_db(query, null);
 
-        
-
+        // const result={"Abc":"asda"};
         return result;
     }
 
@@ -43,6 +45,36 @@ module.exports = class TrainManager{
         return result;
 
     }
+
+    static async sendOrder(req){
+        const {order_id,train_schedule_id, quantity,destination,train} = req.body;
+        const query = `select send_train_bulk(?,?,?,?,?)`;
+        const values = [order_id, quantity,destination,train,train_schedule_id];
+
+        const result = await call_db(query, values);
+
+        return result;
+    }
+
+
+    static async getProduct(req){
+        const {order_id} = req.query;
+        // ID,name,type,description,unit_capacity,price
+
+      
+
+        const query = `select p.ID, p.name, p.type, p.description,p.unit_capacity,p.unit_price 
+                       from orders o join product p 
+                       on o.product_id=p.ID 
+                       where o.ID=?`;
+        const values = [order_id];
+
+        const result = await call_db(query, values);
+        return result;
+
+    }
+
+
 
 
     

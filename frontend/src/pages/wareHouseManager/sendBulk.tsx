@@ -42,6 +42,8 @@ const SendBulk:React.FC<bulkProps> =  (props) => {
   const [scheduleTime, setScheduleTime] = useState<string>('');
   const [scheduleDate, setScheduleDate] = useState<string>('');
 
+  const [notification, setNotification] = useState<{type:string;message:string}|null>(null);
+
 
 
   useEffect(() => {
@@ -60,13 +62,8 @@ const SendBulk:React.FC<bulkProps> =  (props) => {
    
   }, []);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // console.log('Selected driver:', selectedDriver);
-    // console.log('Selected assistant:', selectedAssistant);
-    // console.log('Schedule time:', scheduleTime);
-    // console.log('Schedule date:', scheduleDate);
-
     const data = {
       bulk_id: props.bulk.ID,
       order_id: props.bulk.order,
@@ -77,14 +74,37 @@ const SendBulk:React.FC<bulkProps> =  (props) => {
       schedule_date: scheduleDate
     }
 
-    alert(JSON.stringify(data));
-  
+    const response =  await fetch('http://localhost:5000/warehouse/send-bulk', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data),
+    })
+
+    const result = await response.json();
+
+    if (result.success) {
+      setNotification({
+        type: "success",
+        message: "Bulk Sending successful!",
+      });
+    } else {
+      setNotification({
+        type: "error",
+        message: "Bulk sending failed.",
+      });
+    }
+
+    
   
   };
 
 
 
   return (
+
+    <div>
     <form onSubmit={handleSubmit}>
       <div className="form-group">
         <label htmlFor="driverSelect">Driver</label>
@@ -130,6 +150,15 @@ const SendBulk:React.FC<bulkProps> =  (props) => {
         Submit
       </button>
     </form>
+    {notification && (
+        <div>
+            <div className={`alert alert-${notification.type}`} role="alert">
+              {notification.message}
+            </div>
+            <button className="btn btn-primary">Go Back</button>
+        </div>
+      )}
+    </div>
   );
 };
 

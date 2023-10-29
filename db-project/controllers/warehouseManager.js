@@ -42,9 +42,13 @@ const getVehicles = async (req,res) => {
 
 const sendBulk = async (req,res) => {
     const city= "Colombo";
-    const result = await warehouseManager.sendBulk(city);
-    res.status(200).json(result);
+    const data = {...req.body, city};
+    //console.log("the data from the controller",data);
+    //const result = await warehouseManager.sendBulk(data);
+    res.status(200).json("sucess");
 }
+
+
 
 
 module.exports = {getBulks,  getDrivers,getAssistants, getVehicles, sendBulk}

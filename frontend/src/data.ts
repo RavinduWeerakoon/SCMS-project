@@ -47,8 +47,8 @@ export const menu = [
       },
       {
         id: 4,
-        title: "Posts",
-        url: "/posts",
+        title: "wareHous Home",
+        url: "/display-bulk",
         icon: "post2.svg",
       },
     ],

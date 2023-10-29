@@ -56,66 +56,6 @@ function DisplayOrders() {
             .then((data) => setOrders(data));
     }, []);
 
- 
-//
-    // return (
-    //     <div>
-    //         <h1>Unsent Orders</h1>
-    //         <ul>
-    //             {orders.map((order) => (
-                    
-    //                 <li key={order.id} >
-    //                     <div>ID: {order.id}</div>
-    //                     <div>Date Ordered: {order.date_ordered}</div>
-    //                     <div>City: {order.city}</div>
-    //                     <div>Quantity: {order.quantity}</div>
-    //                 </li>
-                    
-    //             ))}
-    //         </ul>
-    //     </div>
-
-        
-    // );
-
-
-    // return (
-    //     <div>
-    //       <table>
-    //         <thead>
-    //           <tr>
-    //             <th>ID</th>
-    //             <th>Date</th>
-    //             <th>City</th>
-    //             <th>Quantity</th>
-    //           </tr>
-    //         </thead>
-    //         <tbody>
-    //           {orders.map((order) => (
-    //             <tr key={order.ID}>
-    //               <td>{order.ID}</td>
-    //               <td>{order.date_ordered}</td>
-    //               <td>{order.remained_count}</td>
-    //               <td>{order.qty}</td>
-    //               <td>
-    //                 <Button variant="contained" color="success" onClick={() => openModal(order)}>Send</Button>
-    //               </td>
-    //             </tr>
-
-
-                
-                
-    //           )
-    //           )
-    //           }
-    //         </tbody>
-    //       </table>
-
- 
-            
-
-    //     </div>
-    //   );
 
     return(
 

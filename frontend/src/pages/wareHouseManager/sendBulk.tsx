@@ -1,40 +1,88 @@
 import { useState, useEffect } from 'react';
 
+interface TrainBulk {
+  ID: number;
+  order: number;
+  sending_quantity: number;
+  delivery_address: string;
+  confirmed: boolean;
+  sent: boolean;
+}
+
+interface  bulkProps{
+  bulk : TrainBulk
+}
+
+
+
 interface Driver {
-  id: number;
+  user_id: number;
   name: string;
 }
 
 interface Assistant {
-  id: number;
+  user_id: number;
   name: string;
 }
 
-const SendBulk = () => {
+interface Truck{
+  registration_id: string;
+}
+
+const SendBulk:React.FC<bulkProps> =  (props) => {
   const [drivers, setDrivers] = useState<Driver[]>([]);
   const [assistants, setAssistants] = useState<Assistant[]>([]);
+  const [trucks, setTrucks] = useState<Truck[]>([]); // TODO: fetch trucks from backend
+
+
   const [selectedDriver, setSelectedDriver] = useState<number>(0);
   const [selectedAssistant, setSelectedAssistant] = useState<number>(0);
+  const [selectedTruck, setSelectedTruck] = useState<string>('');
+
   const [scheduleTime, setScheduleTime] = useState<string>('');
   const [scheduleDate, setScheduleDate] = useState<string>('');
 
+
+
   useEffect(() => {
-    fetch('/get_drivers')
+    fetch('http://localhost:5000/warehouse/get-drivers')
       .then(response => response.json())
       .then(data => setDrivers(data));
 
-    fetch('/get_assistants')
+    fetch('http://localhost:5000/warehouse/get-assistants')
       .then(response => response.json())
       .then(data => setAssistants(data));
+
+    fetch('http://localhost:5000/warehouse/get-vehicles')
+    .then(response => response.json())
+    .then(data => setTrucks(data))
+
+   
   }, []);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log('Selected driver:', selectedDriver);
-    console.log('Selected assistant:', selectedAssistant);
-    console.log('Schedule time:', scheduleTime);
-    console.log('Schedule date:', scheduleDate);
+    // console.log('Selected driver:', selectedDriver);
+    // console.log('Selected assistant:', selectedAssistant);
+    // console.log('Schedule time:', scheduleTime);
+    // console.log('Schedule date:', scheduleDate);
+
+    const data = {
+      bulk_id: props.bulk.ID,
+      order_id: props.bulk.order,
+      driver_id: selectedDriver,
+      assistant_id: selectedAssistant,
+      vehicle_id: selectedTruck,
+      schedule_time: scheduleTime,
+      schedule_date: scheduleDate
+    }
+
+    alert(JSON.stringify(data));
+  
+  
   };
+
+
 
   return (
     <form onSubmit={handleSubmit}>
@@ -43,7 +91,7 @@ const SendBulk = () => {
         <select className="form-control" id="driverSelect" onChange={(event) => setSelectedDriver(parseInt(event.target.value))}>
           <option value="0">Select driver</option>
           {drivers.map(driver => (
-            <option key={driver.id} value={driver.id}>{driver.name}</option>
+            <option key={driver.user_id} value={driver.user_id}>{driver.user_id}</option>
           ))}
         </select>
       </div>
@@ -53,7 +101,17 @@ const SendBulk = () => {
         <select className="form-control" id="assistantSelect" onChange={(event) => setSelectedAssistant(parseInt(event.target.value))}>
           <option value="0">Select assistant</option>
           {assistants.map(assistant => (
-            <option key={assistant.id} value={assistant.id}>{assistant.name}</option>
+            <option key={assistant.user_id} value={assistant.user_id}>{assistant.user_id}</option>
+          ))}
+        </select>
+      </div>
+
+      <div className="form-group">
+        <label htmlFor="truckSelect">Truck</label>
+        <select className="form-control" id="truckSelect" onChange={(event) => setSelectedTruck(event.target.value)}>
+          <option value="0">Select Truck</option>
+          {trucks.map(truck => (
+            <option key={truck.registration_id} value={truck.registration_id}>{truck.registration_id}</option>
           ))}
         </select>
       </div>

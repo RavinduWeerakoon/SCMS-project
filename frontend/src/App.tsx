@@ -11,6 +11,8 @@ import "./styles/global.scss";
 import User from "./pages/user/User";
 import Product from "./pages/product/Product";
 import TrainSchedule from "./components/schedule/trainSchedule";
+import DisplayBulk from "./pages/wareHouseManager/displayBulk";
+
 
 import {
   QueryClient,
@@ -73,6 +75,10 @@ function App() {
         {
           path: "/buy-product/:id",
           element: <BuyProduct/>,
+        },
+        {
+          path:"/display-bulk",
+          element: <DisplayBulk/>,
         }
       ],
     },

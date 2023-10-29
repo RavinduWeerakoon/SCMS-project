@@ -62,8 +62,19 @@ async function getProduct(req, res){
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
+
+}
+
+async function getTrains(req,res){
+    try{
+        const trains = await trainManager.getTrains(req);
+        res.status(200).json(trains);
+    } catch(error){
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
 }
 
 
 
-module.exports = { getIncompletedOrders, getTrainSchedule, addTrainSchedule, sendOrder, getProduct};
+module.exports = { getIncompletedOrders, getTrainSchedule, addTrainSchedule, sendOrder, getProduct, getTrains};

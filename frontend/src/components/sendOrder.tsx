@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { json } from "react-router-dom";
 
+import TrainSchedule from "./trainSchedule/trainSchedule";
+
 
 interface Train {
     schedule_id:string,
@@ -29,6 +31,8 @@ const SendOrder: React.FC<sendProps> = (props) => {
     const [quantity, setQuantity] = useState<number>(1);
     const [destination, setDestination] = useState<number>(1);
     const [remainingCapacity, setRemainingCapacity] = useState<number>(0);
+
+    const [notification, setNotification] = useState<{type:string;message:string}|null>(null);
 
     // Fetch the list of available trains from the API
     useEffect(() => {
@@ -65,10 +69,11 @@ const SendOrder: React.FC<sendProps> = (props) => {
             train : selectedTrain?.train_id
         };
       
+        
 
         try {
             // Send the order to the API
-            await fetch("http://localhost:5000/trainmanager/send-order", {
+            const response = await  fetch("http://localhost:5000/trainmanager/send-order", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -76,45 +81,99 @@ const SendOrder: React.FC<sendProps> = (props) => {
                 body: JSON.stringify(data),
             });
 
+            const result = await  response.json();
+
+            if (result.success) {
+                setNotification({
+                  type: "success",
+                  message: "Order confirmation successful!",
+                });
+              } else {
+                setNotification({
+                  type: "error",
+                  message: "Order confirmation failed.",
+                });
+              }
+
             // Display success message
             alert("Order has been sent!");
         } catch (error) {
-            // Display error message
-            alert("Error sending order. Please try again.");
+            setNotification({
+                type: "error",
+                message: "Error sending order. Please try again.",
+              });
+           
         }
     };
 
    
 
     return (
-        <div>
-            <h1>Send Order</h1>
-            <form onSubmit={handleSubmit}>
-                <label>
-                    Select a train:
-                    <select value={selectedTrain?.schedule_id} onChange={(event) => {
-                                                                                    const selected = trains[Number(event.target.value)];
-                                                                                    setSelectedTrain(selected);
-                                                                                    setRemainingCapacity(selected.available_capacity);}}>
-                        <option value="">-- Select a train --</option>
-                        {trains.map((train) => (
-                            <option key={train.schedule_id} value={train.schedule_id}>
-                                {train.time} ({train.available_capacity} seats)
-                            </option>
-                        ))}
-                    </select>
-                </label>
 
-                
-                <input id="value-input" type="number" value={quantity} onChange={handleChange}/>
 
-                
-                <p>Remaining capacity: {remainingCapacity}</p>
-                <button type="submit" disabled={selectedTrain==null} >
-                    Send Order
-                </button>
-            </form>
+<div className="container">
+  <div className="row w-100">
+    <div className="col-md-6">
+      <h3>Send Order</h3>
+      <hr />
+      <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label htmlFor="train-select">Select a train:</label>
+          <select
+            id="train-select"
+            className="form-control"
+            value={selectedTrain?.schedule_id}
+            onChange={(event) => {
+              const selected = trains[Number(event.target.value)];
+              setSelectedTrain(selected);
+              setRemainingCapacity(selected.available_capacity);
+            }}
+          >
+            <option value="">-- Select a train --</option>
+            {trains.map((train) => (
+              <option key={train.schedule_id} value={train.schedule_id}>
+                {train.time} ({train.available_capacity} seats)
+              </option>
+            ))}
+          </select>
         </div>
+
+        <div className="form-group">
+          <label htmlFor="quantity-input">Quantity:</label>
+          <input
+            id="quantity-input"
+            className="form-control"
+            type="number"
+            value={quantity}
+            onChange={handleChange}
+          />
+        </div>
+
+        <p>Remaining capacity: {remainingCapacity}</p>
+
+        <button
+          type="submit"
+          className="btn btn-primary"
+          disabled={selectedTrain == null}
+        >
+          Send Order
+        </button>
+      </form>
+    </div>
+    <div className="col-md-6">
+        <TrainSchedule/>
+    </div>
+    
+    {notification && (
+        <div>
+            <div className={`alert alert-${notification.type}`} role="alert">
+              {notification.message}
+            </div>
+            <button className="btn btn-primary">Go Back</button>
+        </div>
+      )}
+  </div>
+</div>
     );
 };
 

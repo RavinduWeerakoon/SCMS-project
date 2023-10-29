@@ -86,13 +86,12 @@ const Add = (props: Props) => {
 
 
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  // const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
 
-    //add new item
-    // mutation.mutate();
-    props.setOpen(false)
-  };
+   
+  //   props.setOpen(false)
+  // };
   return (
     <div className="add">
       <div className="modal">

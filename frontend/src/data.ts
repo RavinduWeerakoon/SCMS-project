@@ -14,7 +14,13 @@ export const menu = [
         title: "Profile",
         url: "/users/1",
         icon: "user.svg",
-      },
+      },{
+        id:3,
+        title:"Train Schedule",
+        url: "/add-schedule",
+        icon: "user.svg",
+
+      }
     ],
   },
   {

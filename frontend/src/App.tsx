@@ -10,6 +10,8 @@ import Login from "./pages/login/Login";
 import "./styles/global.scss";
 import User from "./pages/user/User";
 import Product from "./pages/product/Product";
+import TrainSchedule from "./components/schedule/trainSchedule";
+
 import {
   QueryClient,
   QueryClientProvider,
@@ -23,7 +25,7 @@ function App() {
     return (
       <div className="main">
         <Navbar />
-        <div className="container">
+        <div className="container" style={{width:'100%'}}>
           <div className="menuContainer">
             <Menu />
           </div>
@@ -54,6 +56,11 @@ function App() {
         {
           path: "/products",
           element: <Products />,
+        },
+
+        {
+          path:"/add-schedule",
+          element: <TrainSchedule/>,
         },
         {
           path: "/users/:id",

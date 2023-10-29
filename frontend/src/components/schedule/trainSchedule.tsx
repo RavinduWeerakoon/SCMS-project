@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
+
+import AddSchedule  from './addSchedule';
+import Add from '../buyProducts';
+
+
 interface TrainSchedule {
     date: string;
     available_capacity: number;
@@ -8,9 +17,26 @@ interface TrainSchedule {
     destinations:string;
 }
 
+const style = {
+    position: 'absolute' as 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width:"80%",
+    height:"90%",
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+};
+
 const TrainSchedule = () => {
     const [trainSchedules, setTrainSchedules] = useState<TrainSchedule[]>([]);
     const [selectedRow, setSelectedRow] = useState<number | null>(null);
+
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
     useEffect(() => {
         const fetchTrainSchedules = async () => {
@@ -31,7 +57,9 @@ const TrainSchedule = () => {
 
     return (
         <div>
-        <h1>Train Schedule</h1>
+        <h3>Train Schedule</h3>
+        <Button variant="contained" color="success" onClick={handleOpen}>Add Schedule</Button>
+        <hr/>
         <div className="table-responsive">
           <table className="table table-striped table-light">
             <thead>
@@ -56,6 +84,19 @@ const TrainSchedule = () => {
             </tbody>
           </table>
         </div>
+
+
+        <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+                
+                <AddSchedule/>
+        </Box>
+      </Modal>
       </div>
       );
 };

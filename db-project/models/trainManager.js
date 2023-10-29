@@ -36,9 +36,10 @@ module.exports = class TrainManager{
     }
 
     static async addTrainSchedule(req){
-        const {train_id, date_leaving, time_leaving} = req.body;
-        const query = `select create_schedue(?,?,?)`;
-        const values = [train_id, date_leaving, time_leaving];
+        const {trainId, date, time} = req.body;
+        const query = `call createSchedule(?,?,?)`;
+        console.log(time);
+        const values = [trainId,date,time];
 
         const result = await call_db(query, values);
 
@@ -72,6 +73,14 @@ module.exports = class TrainManager{
         const result = await call_db(query, values);
         return result;
 
+    }
+
+    static async getTrains(req){
+        const query = `select id,name from train`;
+
+        const result = await call_db(query, null);
+
+        return result;
     }
 
 

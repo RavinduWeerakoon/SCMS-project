@@ -18,18 +18,17 @@ import "./home.scss";
 const Home = () => {
   return (
     <div className="home">
+      
       <div className="box boxn">
-        <h3>This is the dashboard</h3>
-      </div>
-      <div className="box box7">
+        <h3>Send Train Order</h3>
         {/* <TopBox /> */}
         <DisplayOrders />
       </div>
-
+{/* 
       <div className="box box7">
-        {/* <TopBox /> */}
+        <TopBox />
         <TrainSchedule />
-      </div>
+      </div> */}
 
     </div>
   );

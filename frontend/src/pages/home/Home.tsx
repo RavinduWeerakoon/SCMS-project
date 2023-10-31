@@ -1,7 +1,7 @@
 import BarChartBox from "../../components/barChartBox/BarChartBox";
 import BigChartBox from "../../components/bigChartBox/BigChartBox";
 import ChartBox from "../../components/chartBox/ChartBox";
-import PieChartBox from "../../components/pieCartBox/PieChartBox";
+import PieChartBox from "../../components/pieChartBox/PieChartBox";
 import TopBox from "../../components/topBox/TopBox";
 import DisplayOrders from "../../components/displayOrders/displayOrders";
 import TrainSchedule from "../../components/trainSchedule/trainSchedule";
@@ -19,7 +19,7 @@ const Home = () => {
   return (
     <div className="home">
       
-      <div className="box boxn">
+      <div className="box boxn shadow bg-light">
         <h3>Send Train Order</h3>
         {/* <TopBox /> */}
         <DisplayOrders />

@@ -22,11 +22,22 @@ const Login: React.FC = () => {
     e.preventDefault();
 
     try {
-      // Make an API call to log in the user
-      const response = await axios.post("http://localhost:5000/auth/login", formData);
 
+      const response = await  fetch("http://localhost:5000/auth/login", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+    });
+      // Make an API call to log in the user
+     const data = await response.json();
+
+     
+
+     
       // If the login is successful, store the user's token in local storage
-      localStorage.setItem("token", response.data.token);
+      
 
       // Redirect the user to dashboard after a successful login
       navigate("/");

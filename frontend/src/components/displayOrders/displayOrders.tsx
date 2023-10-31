@@ -59,31 +59,34 @@ function DisplayOrders() {
 
     return(
 
-      <div className="table-responsive mb-20">
-      <table className="table table-dark-light table-borderless" style={{}}>
-      <thead>
-              <tr>
-              <th className="py-4 px-4 bg-dark-light text-secondary-light" data-config-id="auto-txt-4-4">Order ID</th>
-              <th className="ps-14 py-4 px-4 bg-dark-light rounded-start text-secondary-light" data-config-id="auto-txt-3-4">Placement Date</th>
-              <th className="py-4 px-4 bg-dark-light text-secondary-light" data-config-id="auto-txt-5-4">Feature 2</th>
-              <th className="py-4 px-4 bg-dark-light text-secondary-light" data-config-id="auto-txt-6-4">Feature 3</th>
-              <th className="pe-14 py-4 px-4 bg-dark-light rounded-end text-secondary-light" data-config-id="auto-txt-7-4">Feature 4</th></tr>
-              </thead>
-
+      <div className="mb-20">
+      <table className="table" >
+          <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Placement Date</th>
+            <th>Feature 2</th>
+            <th>Feature 3</th>
+            <th>Feature 4</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+    
               <tbody>
               {orders.map((order) => (
                 <tr key={order.ID}>
-                  <td className="py-5 px-4 align-middle border-bottom text-secondary-light" data-config-id="auto-txt-11-4">{order.ID}</td>
-                  <td className="py-5 px-4 align-middle border-bottom text-secondary-light">{order.date_ordered}</td>
-                  <td className="py-5 px-4 align-middle border-bottom text-secondary-light" data-config-id="auto-txt-11-4">{order.remained_count}</td>
-                  <td className="py-5 px-4 align-middle border-bottom text-secondary-light" data-config-id="auto-txt-11-4">{order.qty}</td>
-                  <td  className="py-5 px-4 align-middle border-bottom text-secondary-light">
-                    <Button variant="contained" color="success" onClick={() => openModal(order)}>Send</Button>
+                  <td>{order.ID}</td>
+                  <td>{order.date_ordered}</td>
+                  <td>{order.remained_count}</td>
+                  <td>{order.qty}</td>
+                  <td>
+                    <Button variant="contained" color="success" onClick={() => openModal(order)}>
+                      Send
+                    </Button>
                   </td>
                 </tr>
-              
-              ))};
-              </tbody>
+              ))}
+            </tbody>
       </table>
 
     {selectedItem?.ID && (

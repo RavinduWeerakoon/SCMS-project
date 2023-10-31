@@ -9,9 +9,19 @@ const trainManager = require('../models/trainManager')
 async function getIncompletedOrders(req, res) {
     try {
         // const orderId = req.params.orderId;
-        const order = await trainManager.getIncompletedOrders(req);
-        console.log(order)
-        res.status(200).json(order);
+        var orders = await trainManager.getIncompletedOrders(req);
+        
+   
+
+        orders = orders.map(order => {
+            const date = new Date(order.date_ordered);
+            const updatedDate = date.toISOString().split('T')[0];
+            return { ...order, date_ordered: updatedDate }});
+
+        
+
+
+        res.status(200).json(orders);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });

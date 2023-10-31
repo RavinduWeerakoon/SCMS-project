@@ -14,38 +14,52 @@ import TrainSchedule from "./components/schedule/trainSchedule";
 import DisplayBulk from "./pages/wareHouseManager/displayBulk";
 
 
-import {
-  QueryClient,
-  QueryClientProvider,
-} from "@tanstack/react-query";
+
+// import NewMenu from "./components/Menus/newMenu";
+
+import Admin  from "./pages/admin/admin";
+// import DisplayOrders from "../../components/displayOrders/displayOrders";
 
 
-const queryClient = new QueryClient();
+
+
+
+import Layout from "./components/layouts/stucture";
+import TrainManagerMenu from "./components/Menus/trainManagerMenu";
+import WareHouseManagerMenu from "./components/Menus/wareHouseManagerMenu";
+import CustomerMenu from "./components/Menus/customerMenu";
+
+
+
+// const WareHouseLayout = () => {
+//   const queryClient = new QueryClient();
+//   return (
+//     <div className="main">
+      
+//       <div className="container-fluid" style={{width:'100%'}}>
+//         <div className="menuContainer">
+//           <TrainManagerMenu />
+//         </div>
+//         <div className="contentContainer shadow bg-dark">
+//           <QueryClientProvider client={queryClient}>
+//             <Outlet />
+//           </QueryClientProvider>
+//         </div>
+//       </div>
+//       <Footer />
+//     </div>
+//   );
+// };
+
+
+//const queryClient = new QueryClient();
 
 function App() {
-  const Layout = () => {
-    return (
-      <div className="main">
-        <Navbar />
-        <div className="container" style={{width:'100%'}}>
-          <div className="menuContainer">
-            <Menu />
-          </div>
-          <div className="contentContainer">
-            <QueryClientProvider client={queryClient}>
-              <Outlet />
-            </QueryClientProvider>
-          </div>
-        </div>
-        <Footer />
-      </div>
-    );
-  };
 
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Layout />,
+      element: <Layout menuComponent={<TrainManagerMenu/>} />,
       children: [
         {
           path: "/",
@@ -55,10 +69,10 @@ function App() {
           path: "/users",
           element: <Users />,
         },
-        {
-          path: "/products",
-          element: <Products />,
-        },
+        // {
+        //   path: "/products",
+        //   element: <Products />,
+        // },
 
         {
           path:"/add-schedule",
@@ -79,13 +93,46 @@ function App() {
         {
           path:"/display-bulk",
           element: <DisplayBulk/>,
+        },
+        {
+          path: "/admin",
+          element: <Admin />,
         }
       ],
+    },
+
+    {
+      path: "/warehouse",
+      element: <Layout menuComponent={<WareHouseManagerMenu/>} />,
+      children:[
+        {
+          path:"/warehouse",
+          element:<DisplayBulk/>
+        }
+      ]
+
+    },
+
+    {
+      path:"/customer",
+      element:<Layout menuComponent={<CustomerMenu/>} />,
+      children:[
+        {
+          path:"/customer",
+          element:<Products/>
+        }
+      ]
     },
     {
       path: "/login",
       element: <Login />,
     },
+    {
+      path: "*",
+      element: <h1>Not Found Try Something New</h1>,
+    }
+
+ 
 
   
   ]);

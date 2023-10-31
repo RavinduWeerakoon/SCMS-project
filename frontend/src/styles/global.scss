@@ -18,14 +18,14 @@ a {
   color: $main-color;
 }
 
-.container {
+.container, .container-fluid {
   display: flex;
 }
 
 .menuContainer {
-  width: 250px;
+  width: 300px;
   padding: 5px 20px;
-  border-right: 2px solid $soft-bg;
+  // border-right: 2px solid $soft-bg;
 
   @include lg{
     width: max-content;
@@ -385,9 +385,16 @@ section {
 #values{
 	background-color: #ffffff;
 }
-.values .box {
+.values{
   padding: 30px;
   box-shadow: 0px 0 5px rgba(1, 41, 112, 0.08);
+  text-align: center;
+  transition: 0.3s;
+  height: 100%;
+}
+.box {
+  padding: 30px;
+  
   text-align: center;
   transition: 0.3s;
   height: 100%;

@@ -104,7 +104,7 @@ module.exports.signup_post = (req,res) => {
  *  - error handling - done
  */
 
-module.exports.login_post = (req,res) => {
+module.exports.login_post = async (req,res) => {
     const {
         email,
         password
@@ -117,7 +117,7 @@ module.exports.login_post = (req,res) => {
        
         console.log(data);
         AuthServices.checkPassword(data[0].password,password)
-        .then(matched => {
+        .then(async matched => {
 
             console.log('hash compare done -' + matched)
 
@@ -127,11 +127,18 @@ module.exports.login_post = (req,res) => {
                 const user = data[0];
                 const token = AuthServices.createToken(user)
 
+                if (user.type == "s_manager"){
+                   const warehouse = await  LogInUser.getWareHouse(user.ID)
+                   user.warehouse =  warehouse[0].city_name
+                }
+
                 
                 res.cookie('jwt', token , { httpOnly : true,maxAge:AuthServices.expire * 1000});
 
                 const {password, ...userWithoutPassword} = user;
 
+
+                console.log(user);
 
                 
                 // AuthServices.redirect(res, userType,false)

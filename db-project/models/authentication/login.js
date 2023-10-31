@@ -39,6 +39,14 @@ class UserLogin {
         
     }
 
+
+    async getWareHouse(ID){
+        
+        const res = await call_db("call getWareHouse(?)",[ID]);
+
+        return res[0];
+    }
+
     
 
 

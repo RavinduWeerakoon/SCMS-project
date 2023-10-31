@@ -11,7 +11,7 @@ module.exports = class TrainManager{
         const query = `select ID,remained_count,qty,date_ordered
                         from (train_order t join orders o) 
                         where t.order = o.ID and t.finished=0 ; `;
-        console.log("Called");
+       
         const result = await call_db(query, null);
 
         // const result={"Abc":"asda"};

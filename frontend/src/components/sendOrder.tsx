@@ -18,7 +18,11 @@ interface Order {
     remained_count: string;
     qty: string;
     date_ordered: string;
+    unit_capacity: number;
     
+}
+interface Destination {
+  city_name: string;
 }
 
 interface  sendProps{
@@ -29,10 +33,13 @@ const SendOrder: React.FC<sendProps> = (props) => {
     const [trains, setTrains] = useState<Train[]>([]);
     const [selectedTrain, setSelectedTrain] = useState<Train | null>(null);
     const [quantity, setQuantity] = useState<number>(1);
-    const [destination, setDestination] = useState<number>(1);
+    const [destination, setDestination] = useState<string>("");
     const [remainingCapacity, setRemainingCapacity] = useState<number>(0);
 
     const [notification, setNotification] = useState<{type:string;message:string}|null>(null);
+
+    const [destinations, setDestinations] = useState<Destination[]>([]);
+    const [showSuccess, setShowSuccess] = useState<boolean>(false);
 
     // Fetch the list of available trains from the API
     useEffect(() => {
@@ -45,12 +52,18 @@ const SendOrder: React.FC<sendProps> = (props) => {
     // // Calculate the remaining capacity of the selected train based on the current quantity
     // const remainingCapacity = selectedTrain ? selectedTrain.available_capacity - quantity : 0;
 
+    useEffect(() => {
+      fetch("http://localhost:5000/trainmanager/get-destinations")
+        .then((response) => response.json())
+        .then((data) => setDestinations(data));
+    }, []);
+
 
     // Handle the form submission
 
     const handleChange = async (event:React.ChangeEvent<HTMLInputElement>) => {
         const init_capacuty = selectedTrain?.available_capacity as number;
-        setRemainingCapacity(init_capacuty-Number(event.target.value));
+        setRemainingCapacity(init_capacuty-Number(Number(event.target.value)* props.order.unit_capacity));
         setQuantity(Number(event.target.value));
     }
     
@@ -71,39 +84,17 @@ const SendOrder: React.FC<sendProps> = (props) => {
       
         
 
-        try {
-            // Send the order to the API
-            const response = await  fetch("http://localhost:5000/trainmanager/send-order", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(data),
-            });
-
-            const result = await  response.json();
-
-            if (result.success) {
-                setNotification({
-                  type: "success",
-                  message: "Order confirmation successful!",
-                });
-              } else {
-                setNotification({
-                  type: "error",
-                  message: "Order confirmation failed.",
-                });
-              }
-
-            // Display success message
-            alert("Order has been sent!");
-        } catch (error) {
-            setNotification({
-                type: "error",
-                message: "Error sending order. Please try again.",
-              });
-           
-        }
+        await fetch("http://localhost:5000/trainmanager/send-order", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        }).then((res)=>{
+          if(res.ok){
+            setShowSuccess(true);
+          }else{
+            alert("Error");
+          }
+        })
     };
 
    
@@ -149,25 +140,53 @@ const SendOrder: React.FC<sendProps> = (props) => {
           />
         </div>
 
-        <p>Remaining capacity: {remainingCapacity}</p>
+        <div className="form-group">
+        <label htmlFor="city-select">Select a city:</label>
+        <select id="city-select" 
+          className="form-control"
+          onChange={(e)=>{
+            setDestination(String(e.target.value));
+          }}>
+          <option value="">-- Select a city --</option>
+          
 
-        <button
-          type="submit"
-          className="btn btn-primary"
+
+          {destinations.map((city, index) => (
+            <option key={index} value={city.city_name}>
+              {city.city_name}
+            </option>
+          ))}
+          className="btn btn-primary mt-3"
           disabled={selectedTrain == null}
-        >
+        
+        </select>
+
+        <p className="my-3 h4 text-danger">Remaining Capacity :{remainingCapacity}</p>
+        </div>
+        <button type="submit" className="btn btn-primary mt-3" disabled={selectedTrain == null}>
           Send Order
         </button>
+
+
+      
+      
       </form>
     </div>
     <div className="col-md-6">
         <TrainSchedule/>
     </div>
     
+    {showSuccess && (
+            <div className="col-md-12">
+              <div className="alert alert-success" role="alert">
+                Schedule added successfully!
+              </div>
+      </div>)}
+    
     {notification && (
         <div>
             <div className={`alert alert-${notification.type}`} role="alert">
-              {notification.message}
+             
             </div>
             <button className="btn btn-primary">Go Back</button>
         </div>

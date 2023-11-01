@@ -13,13 +13,13 @@ async function getIncompletedOrders(req, res) {
         
    
 
-        orders = orders.map(order => {
+        orders = orders[0].map(order => {
             const date = new Date(order.date_ordered);
             const updatedDate = date.toISOString().split('T')[0];
             return { ...order, date_ordered: updatedDate }});
 
         
-
+        
 
         res.status(200).json(orders);
     } catch (error) {
@@ -43,6 +43,7 @@ async function getTrainSchedule(req, res){
 async function addTrainSchedule(req, res){
     try{
         const train_schedule = await trainManager.addTrainSchedule(req);
+        
         res.status(200).json(train_schedule);
     } catch(error){
         console.error(error);
@@ -53,10 +54,10 @@ async function addTrainSchedule(req, res){
 async function sendOrder(req, res){
 
     try{
-        // const order = await trainManager.sendOrder(req);
-        console.log(req.body);
-        //res.status(200).json(order);
+        
+        
         const result = await trainManager.sendOrder(req);
+        console.log("Sucess");
         res.status(200).json(result);
     } catch(error){
         console.error(error);
@@ -86,5 +87,13 @@ async function getTrains(req,res){
 }
 
 
+async function getDestinations(req,res){
 
-module.exports = { getIncompletedOrders, getTrainSchedule, addTrainSchedule, sendOrder, getProduct, getTrains};
+    const query = `select city_name from city_warehouse`;
+    const result = await call_db(query, null);
+    res.status(200).json(result);
+
+}
+
+
+module.exports = { getIncompletedOrders, getTrainSchedule, addTrainSchedule, sendOrder, getProduct, getTrains, getDestinations};

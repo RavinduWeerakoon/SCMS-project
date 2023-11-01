@@ -1,0 +1,4 @@
+        orders = orders.map(order => {
+            const date = new Date(order.date_ordered);
+            const updatedDate = date.toISOString().split('T')[0];
+            return { ...order, date_ordered: updatedDate }})

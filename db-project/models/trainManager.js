@@ -8,9 +8,7 @@ module.exports = class TrainManager{
     
     static async getIncompletedOrders(req){
         // get the orders which does not have a train assigned the state is not delivered
-        const query = `select ID,remained_count,qty,date_ordered
-                        from (train_order t join orders o) 
-                        where t.order = o.ID and t.finished=0 ; `;
+        const query = `call trainOrders()`;
        
         const result = await call_db(query, null);
 

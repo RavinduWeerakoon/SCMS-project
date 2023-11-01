@@ -24,9 +24,13 @@ const queryClient = new QueryClient();
           {menuComponent}
         </div>
         <div className="contentContainer">
+          <div className="shadow bg-light">
           <QueryClientProvider client={queryClient}>
             <Outlet />
           </QueryClientProvider>
+          </div>
+          
+      
         </div>
       </div>
       <Footer />

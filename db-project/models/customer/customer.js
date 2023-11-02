@@ -12,7 +12,7 @@ static async createOrder(request) {
 
         const {product_id,date_ordered,path,quantity,price, delivery_address} = request.body;
 
-        const customer = decodedToken?.ID1 || 1;
+        const customer = decodedToken?.ID || 1;
 
        
         

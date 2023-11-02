@@ -11,7 +11,13 @@ const warehouseManager = require('../models/warehouseManager');
 // sent: boolean;
 
 const getBulks = async (req,res) => {
-    const city= "Colombo";
+    
+    const decodedToken = decodeToken(req)
+
+    const city = decodedToken?.city || "Colombo";
+   
+
+
     const result = await warehouseManager.getBulks(city);
 
 
@@ -21,7 +27,9 @@ const getBulks = async (req,res) => {
 // getDrivers,getAssisstants, getVehicles, sendBulk
 
 const getDrivers = async (req,res) => {
-    const city= "Colombo";
+    const decodedToken = decodeToken(req)
+
+    const city = decodedToken?.city || "Colombo";
     const result = await warehouseManager.getDrivers(city);
 
     res.status(200).json(result[0]);
@@ -29,19 +37,25 @@ const getDrivers = async (req,res) => {
 }
 
 const getAssistants = async (req,res) => {
-    const city= "Colombo";
+    const decodedToken = decodeToken(req)
+
+    const city = decodedToken?.city || "Colombo";
     const result = await warehouseManager.getAssistants(city);
     res.status(200).json(result[0]);
 }
 
 const getVehicles = async (req,res) => {
-    const city= "Colombo";
+    const decodedToken = decodeToken(req)
+
+    const city = decodedToken?.city || "Colombo";
     const result = await warehouseManager.getVehicles(city);
     res.status(200).json(result[0]);
 }
 
 const sendBulk = async (req,res) => {
-    const city= "Colombo";
+    const decodedToken = decodeToken(req)
+
+    const city = decodedToken?.city || "Colombo";
     const data = {...req.body, city};
     //console.log("the data from the controller",data);
     //const result = await warehouseManager.sendBulk(data);

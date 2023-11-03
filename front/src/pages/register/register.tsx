@@ -48,7 +48,7 @@ const Register: React.FC = () => {
       </div>
       <div className="form-group">
         <label htmlFor="contactNo">Contact No</label>
-        <input type="tel" className="form-control" id="contactNo" value={contactNo} onChange={e => setContactNo(e.target.value)} placeholder="Contact No" required />
+        <input type="tel" className="form-control" id="contactNo" minLength={10} maxLength={10} value={contactNo} onChange={e => setContactNo(e.target.value)} placeholder="Contact No" required />
       </div>
       <div className="form-group">
         <label htmlFor="name">Name</label>

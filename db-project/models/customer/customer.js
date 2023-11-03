@@ -18,7 +18,7 @@ static async createOrder(request) {
         
         // extract the email
         // const email = decodedToken.ID;
-        const query = "insert into orders(customer, product_id, date_ordered, path, qty, state, price) values (?, ?, ?, ?, ?, ?, ?)";
+        const query = "insert into orders(customer, product_id, date_ordered, path, qty, state, price, delivery_address) values (?, ?, ?, ?, ?, ?, ?,?)";
 
         const result = await call_db(query, [customer, product_id, date_ordered, path, quantity, "unsent", price, delivery_address]);
         return result;

@@ -3,10 +3,13 @@ let {pool , call_db ,connection}= require('../db/connection');
 
 
 async function getSales(req,res){
+   
+
+    const year = Number(req.query.year) || 2023;
     
     const query = "call getQuarterlySales(?)"
 
-    const result = await call_db(query, [2023]);
+    const result = await call_db(query, [year]);
 
     return res.status(200).json(result[0]);
 }

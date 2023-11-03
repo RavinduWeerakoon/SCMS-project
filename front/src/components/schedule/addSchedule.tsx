@@ -44,8 +44,8 @@ const AddSchedule =  () => {
 
   return (
     <div className="container">
-      <div className="row">
-        <div className="col-md-12">
+      <div className="mx-auto row">
+        <div className="width-50 justify-content-center">
           <h3>Add Schedule</h3>
           <hr />
           <form onSubmit={handleSubmit}>

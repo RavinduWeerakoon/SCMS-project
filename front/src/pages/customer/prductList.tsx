@@ -87,7 +87,7 @@ const ProductList: React.FC = () => {
             <td>{product.type}</td>
             <td>{product.unit_price}</td>
             <td>
-                <button className="btn btn-primary" onClick={() => handleShowopen(product)}>Details</button>
+                <button className="btn btn-primary me-3" onClick={() => handleShowopen(product)}>Details</button>
                 <button className="btn btn-success" onClick={()=> handleBuyOpen(product)}>Buy</button>
             </td>
           </tr>
@@ -116,7 +116,7 @@ const ProductList: React.FC = () => {
     </Modal>
           )}
 
-    {SelectedShowItem?.ID && (
+    {SelectedBuyItem?.ID && (
       <Modal
       open={openBuy}
       onClose={closeBuy}
@@ -124,7 +124,8 @@ const ProductList: React.FC = () => {
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-           <BuyProduct product={SelectedShowItem}/>
+          <BuyProduct product={SelectedBuyItem}/>
+          
       </Box>
     </Modal>
           )}

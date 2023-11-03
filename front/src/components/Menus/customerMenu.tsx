@@ -9,29 +9,16 @@ interface Content {
 const contentList: Content[] = [
     {
         name: "Dashboard",
-        link: "/",
+        link: "/customer",
         icon: "bi-speedometer2",
     },
     {
         name: "Orders",
-        link: "/orders",
+        link: "customer/orders",
         icon: "bi-cart4",
     },
-    {
-        name: "Inventory",
-        link: "/inventory",
-        icon: "bi-archive",
-    },
-    {
-        name: "Settings",
-        link: "/settings",
-        icon: "bi-gear",
-    },
-    {
-        name: "Logout",
-        link: "/logout",
-        icon: "bi-box-arrow-right",
-    },
+   
+    
 ];
 
 const CustomerMenu = () => {

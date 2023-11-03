@@ -32,7 +32,12 @@ async function getIncompletedOrders(req, res) {
 async function getTrainSchedule(req, res){
 
     try{
-    const train_schedule = await trainManager.getTrainSchedule(req);
+    let train_schedule = await trainManager.getTrainSchedule(req);
+
+    train_schedule = train_schedule.map(t_schedule => {
+        const date = new Date(t_schedule.date);
+        const updatedDate = date.toISOString().split('T')[0];
+        return { ...t_schedule, date: updatedDate }})
     res.status(200).json(train_schedule);
     } catch (error){
         console.error(error);
@@ -95,5 +100,13 @@ async function getDestinations(req,res){
 
 }
 
+async function confirmOrder(req,res){
+    const id = req.body.bulk_id;
 
-module.exports = { getIncompletedOrders, getTrainSchedule, addTrainSchedule, sendOrder, getProduct, getTrains, getDestinations};
+    const query = `update train_bulk set confirmed = 1 where id = ?`;
+
+    const result = await call_db(query, [id]);
+}
+
+
+module.exports = { getIncompletedOrders, getTrainSchedule, addTrainSchedule, sendOrder, getProduct, getTrains, getDestinations, confirmOrder};

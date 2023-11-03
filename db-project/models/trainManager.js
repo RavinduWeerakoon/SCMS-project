@@ -26,7 +26,7 @@ module.exports = class TrainManager{
 
 
     static async getTrainSchedule(req){
-        const query = `select * from train_schedule`
+        const query = `select * from train_schedule where date>=curdate()`
 
         const result = await call_db(query, null);
 

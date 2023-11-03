@@ -42,7 +42,7 @@ module.exports.login_get = (req,res) => {
  *  - login function - done
  */
 
-module.exports.signup_post = (req,res) => {
+module.exports.signup_post = async (req,res) => {
     
     const {
         email,
@@ -53,46 +53,21 @@ module.exports.signup_post = (req,res) => {
         customer_type,
     } = req.body;
 
-    // ************ to-do - validating ********** //
 
-    // hashing the password
-    // bcrypt.genSalt(10, (err, salt) => {
-    //     if(err){
-    //         res.status(500).send('Internal Server Error')
-    //     }
-    //     bcrypt.hash(password,salt,(err,hash) => {
-
-    //         if(err){
-    //             console.error('[error] - hashing password - contoller/authcontroller '+err)
-    //             res.status(500).send('Internal Server Error')
-    //             return 
-    //         }
-
-            // store in database
-            console.log(email);
-            AuthCustomer.registerCustomer(
-                pool,
-                res,
-                req,
+            
+            
+            const result = await AuthCustomer.registerCustomer(
                 {
                     email:email,
                     name:name,
                     type:type,
-                    password:password,
+                    password:await bcrypt.hash(password, 10),//hashing the password
                     contact_no:contact_no,
                     customer_type:customer_type
                 })
-            .then(data => {
-                // if success redirect to the login page
-                res.status(400).json({error:0})
-                console.log(data[0])
-            })
-            .catch(err => {
-                // if email already used send bad reqeyuest
-                if(err.code === 'ER_DUP_ENTRY')
-                    res.status(400).json({error:'this email alredy used'})
-                    console.log('[error] - sigining in user [email is laready used] - contoller/authcontroller '+ err);
-            })
+
+            res.status(200).json({"success":"true"})
+            
 //         })
 //     })
 }
@@ -168,7 +143,7 @@ module.exports.login_post = async (req,res) => {
 module.exports.logout_get = (req,res) => {
     // delete auth jwt cookie to logout
     res.cookie('jwt','',{ maxAge:99})
-    res.status(201).json({
+    res.status(200).json({
                         message:'logout success',
                         error:false,
                         redirect:"/"

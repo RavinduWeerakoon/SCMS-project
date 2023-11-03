@@ -68,6 +68,9 @@ const BuyProduct: React.FC<BuyProductProps> = ({ product }) => {
   };
 
   return (
+    <div className="row justify-content-center">
+      <div className="col-md-6">
+        <h3 className='mx-auto'>Buy Product</h3>
     <form onSubmit={handleSubmit}>
       <div className="form-group">
         <label htmlFor="quantity">Quantity:</label>
@@ -76,8 +79,11 @@ const BuyProduct: React.FC<BuyProductProps> = ({ product }) => {
           id="quantity"
           className="form-control"
           value={quantity}
-          onChange={(event) => {setQuantity(Number(event.target.value))
-                                setPrice(Number(event.target.value)*product.unit_price)}}
+          onChange={(event) => {
+            const val = Number(event.target.value);
+            if (val >=0 ){
+            setQuantity(Number(event.target.value))
+            setPrice(Number(event.target.value)*product.unit_price)}}}
         />
       </div>
       <div className="form-group">
@@ -108,7 +114,7 @@ const BuyProduct: React.FC<BuyProductProps> = ({ product }) => {
           onChange={(event) => setAddress(event.target.value)}/>
         </div>
 
-      <p className="h4 text-primary">The price is {price}</p>
+      <p className="h4 text-primary my-3">The price is {price}</p>
       <button type="submit" className="btn btn-primary">Buy</button>
       {showSuccess && (
             <div className="col-md-12">
@@ -117,6 +123,8 @@ const BuyProduct: React.FC<BuyProductProps> = ({ product }) => {
               </div>
       </div>)}
     </form>
+      </div>
+    </div>
   );
 };
 

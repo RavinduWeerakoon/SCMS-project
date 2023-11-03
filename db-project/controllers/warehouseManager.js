@@ -57,8 +57,9 @@ const sendBulk = async (req,res) => {
 
     const city = decodedToken?.city || "Colombo";
     const data = {...req.body, city};
-    //console.log("the data from the controller",data);
-    //const result = await warehouseManager.sendBulk(data);
+
+    console.log("the data from the controller",data);
+    const result = await warehouseManager.sendBulk(data);
     res.status(200).json("sucess");
 }
 

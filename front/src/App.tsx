@@ -12,8 +12,10 @@ import User from "./pages/user/User";
 import Product from "./pages/product/Product";
 import TrainSchedule from "./components/schedule/trainSchedule";
 import DisplayBulk from "./pages/wareHouseManager/displayBulk";
+import SendOrder from "./components/sendOrder";
 
 import ProductList from "./pages/customer/prductList";
+import Register from "./pages/register/register";
 
 
 import Admin  from "./pages/admin/admin";
@@ -34,6 +36,8 @@ import OrderDestinations from "./pages/charts/orderDestinations";
 import AssistantHoursTable from "./pages/charts/assistantHours";
 import DriverHoursTable from "./pages/charts/driverHours";
 import TruckInfo from "./pages/charts/truckInfo";
+
+import DisplayOrders from "./components/displayOrders/displayOrders";
 import UserOrders from "./pages/charts/userOrders";
 
 function App() {
@@ -42,6 +46,11 @@ function App() {
 
     {path:"/",
     element:<Home/>},
+
+    {path:"/register",
+    element:<Register/>
+
+    },
     
     
     {
@@ -91,10 +100,10 @@ function App() {
       children:[
         {
           path:"/tmanager",
-          element:<Home/>
+          element:<DisplayOrders/>
         },
         {
-          path:"/tmanager/add-schedule",
+          path:"add-schedule",
           element: <TrainSchedule/>,
         },
       ]

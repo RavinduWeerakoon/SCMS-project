@@ -15,6 +15,7 @@ interface Order {
     remained_count: string;
     qty: string;
     date_ordered: string;
+    unit_capacity:number;
 }
 
 const style = {
@@ -65,9 +66,8 @@ function DisplayOrders() {
           <tr>
             <th>Order ID</th>
             <th>Placement Date</th>
-            <th>Feature 2</th>
-            <th>Feature 3</th>
-            <th>Feature 4</th>
+            <th>To be sent</th>
+            <th>Order Qty</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -80,7 +80,7 @@ function DisplayOrders() {
                   <td>{order.remained_count}</td>
                   <td>{order.qty}</td>
                   <td>
-                    <Button variant="contained" color="success" onClick={() => openModal(order)}>
+                    <Button variant="contained" color="primary" onClick={() => openModal(order)}>
                       Send
                     </Button>
                   </td>

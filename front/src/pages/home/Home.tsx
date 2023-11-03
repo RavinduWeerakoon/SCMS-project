@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 
 
 const Home = () =>{
@@ -23,13 +24,18 @@ const Home = () =>{
   <div className="row">
     <div className="col-lg-6 d-flex flex-column justify-content-center">
       <h1 data-aos="fade-up">Modern Supply chain Solutions</h1>
-      <h2 data-aos="fade-up" data-aos-delay="400">We are team of talented designers making websites with Bootstrap</h2>
+      <h2 data-aos="fade-up" data-aos-delay="400">A Company provides the modern solutions for the spply chain systems</h2>
       <div data-aos="fade-up" data-aos-delay="600">
         <div className="text-center text-lg-start">
-          <a href="#about" className="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
-            <span>Get Started</span>
-            <i className="bi bi-arrow-right"></i>
-          </a>
+          
+            <span className="d-flex">
+            <Link to = {'register'} className="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center me-3"><span>Register<i className="bi bi-arrow-right"></i>
+            </span></Link>
+            <Link to = {'login'} className="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center ml-3"><span>Login <i className="bi bi-arrow-right"></i></span></Link>
+            </span>
+            
+
+         
         </div>
       </div>
     </div>

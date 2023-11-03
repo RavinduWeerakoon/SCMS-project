@@ -84,7 +84,7 @@ const SendBulk:React.FC<bulkProps> =  (props) => {
 
     const result = await response.json();
 
-    if (result.success) {
+    if (result.ok) {
       setNotification({
         type: "success",
         message: "Bulk Sending successful!",

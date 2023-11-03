@@ -46,7 +46,8 @@ const SendOrder: React.FC<sendProps> = (props) => {
 
         fetch("http://localhost:5000/trainmanager/get-schedule")
         .then((response) => response.json())
-        .then((data) => setTrains(data));
+        .then((data) => {setTrains(data);
+                        console.log(data)});
     }, []);
 
     // // Calculate the remaining capacity of the selected train based on the current quantity
@@ -62,6 +63,7 @@ const SendOrder: React.FC<sendProps> = (props) => {
     // Handle the form submission
 
     const handleChange = async (event:React.ChangeEvent<HTMLInputElement>) => {
+        console.log(selectedTrain?.available_capacity)
         const init_capacuty = selectedTrain?.available_capacity as number;
         setRemainingCapacity(init_capacuty-Number(Number(event.target.value)* props.order.unit_capacity));
         setQuantity(Number(event.target.value));
@@ -72,7 +74,7 @@ const SendOrder: React.FC<sendProps> = (props) => {
     // }
     const handleSubmit = async (event:React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        alert("Fuck");
+        
         
         const data = {
             order_id: props.order.ID,
@@ -103,6 +105,7 @@ const SendOrder: React.FC<sendProps> = (props) => {
 
 
 <div className="container">
+  
   <div className="row w-100">
     <div className="col-md-6">
       <h3>Send Order</h3>
@@ -116,14 +119,17 @@ const SendOrder: React.FC<sendProps> = (props) => {
             value={selectedTrain?.schedule_id}
             onChange={(event) => {
               const selected = trains[Number(event.target.value)];
+              
+              
               setSelectedTrain(selected);
+              
               setRemainingCapacity(selected.available_capacity);
             }}
           >
-            <option value="">-- Select a train --</option>
-            {trains.map((train) => (
-              <option key={train.schedule_id} value={train.schedule_id}>
-                {train.time} ({train.available_capacity} seats)
+            <option value={selectedTrain?.schedule_id}>-- Select a train --</option>
+            {trains.map((train, index:number) => (
+              <option key={train.schedule_id} value={index}>
+                {train.time} ({train.available_capacity} capacity)
               </option>
             ))}
           </select>

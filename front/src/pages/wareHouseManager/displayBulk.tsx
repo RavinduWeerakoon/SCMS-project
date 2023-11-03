@@ -10,6 +10,20 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 
+interface TrainBulk {
+  ID: number;
+  order: number;
+  sending_quantity: number;
+  delivery_address: string;
+  confirmed: boolean;
+  sent: boolean;
+}
+
+interface  bulkProps{
+  bulk : TrainBulk
+}
+
+
 
 // {"ID":11,"order":1,"sending_quantity":"3.00","delivery_address":"No 3,Elliot road,Colombo","confirmed":null,"sent":null},
 
@@ -18,8 +32,8 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width:"80%",
-    height:"90%",
+    width:"90%",
+    height:"95%",
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
@@ -35,7 +49,7 @@ interface TrainBulk {
   sent: boolean;
 }
 
-const DisplayBulk = () => {
+const DisplayBulk = ({}) => {
   const [trainBulkList, setTrainBulkList] = useState<TrainBulk[]>([]);
   const [selectedConfirmItem, setSelectedConfirmItem] = useState<TrainBulk|null>(null);
   const [selectedSendItem, setSelectedSendItem] = useState<TrainBulk>();
@@ -113,7 +127,7 @@ const DisplayBulk = () => {
                   {trainBulk.confirmed ? 'Confirmed' : 'Confirm'}
                 </button>
                 {/* <button type="button" className="btn btn-primary ml-2" onClick={() => handleSendBulk(trainBulk.ID)} disabled={!trainBulk.confirmed}> */}
-                <button type="button" className="btn btn-primary ml-2" onClick={() => handleSendConfirm(trainBulk)}>
+                <button type="button" className="btn btn-primary ml-2" onClick={() => handleSendConfirm(trainBulk)}  disabled={trainBulk.sent}>
                   Send
                 </button>
               </td>
@@ -130,7 +144,7 @@ const DisplayBulk = () => {
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-          <ConfirmBulk/>
+          <ConfirmBulk bulk={selectedConfirmItem}/>
       </Box>
     </Modal>
           )}

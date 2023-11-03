@@ -80,7 +80,7 @@ const Login: React.FC = () => {
       <div className="row">
         <div className="col-lg-6 d-flex flex-column justify-content-center">
            
-<form onSubmit={handleSubmit}>
+<form onSubmit={handleSubmit} className="theme-form mx-auto">
   <h3><div className="text"><b>Login Here</b></div></h3>
   <label htmlFor="username">User name</label>
   {/* <input type="text" placeholder="Email or Phone" id="username" /> */}

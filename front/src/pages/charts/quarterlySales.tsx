@@ -9,11 +9,12 @@ interface IncomeData {
 
 const QuarterlySales: React.FC = () => {
   const [data, setData] = useState<IncomeData[]>([]);
+  const [year, setYear] = useState((new Date()).getFullYear());
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:5000/admin/quarter-sales');
+        const response = await fetch(`http://localhost:5000/admin/quarter-sales?year=${year}`);
         const data = await response.json();
         setData(data);
       } catch (error) {
@@ -22,11 +23,24 @@ const QuarterlySales: React.FC = () => {
     };
 
     fetchData();
-  }, []);
+  }, [year]);
 
+  const handleYearChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    
+    setYear(Number(event.target.value));
+  
+  };
   
   
-  return (                            
+  return ( 
+  <div>
+    <select value={year} onChange={handleYearChange}>
+    <option value="2023">2023</option>
+    <option value="2020">2020</option>
+    <option value="2021">2021</option>
+    <option value="2022">2022</option>
+    // Add more options as needed
+  </select>                           
   <BarChart width={600} height={500} data={data} className='max-auto'>
     <CartesianGrid strokeDasharray="3 3" />
     <XAxis dataKey="income_quarter" />
@@ -36,6 +50,7 @@ const QuarterlySales: React.FC = () => {
     <Bar dataKey="quarterly_income" fill="#8884d8" />
     
   </BarChart>
+  </div>
   )
 };
 
